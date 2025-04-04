@@ -31,7 +31,7 @@ app.use(session({
         autoRemoveInterval: 10 // Minutes
     }),
     cookie: { 
-        // Only use secure cookies in production (HTTPS)
+        // In production, secure cookies are necessary if using HTTPS
         secure: process.env.NODE_ENV === 'production',
         sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
         maxAge: 24 * 60 * 60 * 1000

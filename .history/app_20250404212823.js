@@ -46,6 +46,7 @@ app.set('views', path.join(__dirname, 'views'));
 const visaRouter = require('./routes/visa');
 app.use('/', visaRouter);
 
+
 // Error handling
 app.use((err, req, res, next) => {
     console.error(err.stack);

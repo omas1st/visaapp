@@ -92,7 +92,6 @@ router.get('/page2', checkSessionData, async (req, res) => {
     }
 });
 // GET /page2 Route
-// GET /page2 Route
 router.get('/page2', checkSessionData, async (req, res) => {
     try {
         console.log("GET /page2: applicationId from session:", req.session.applicationId);
@@ -112,26 +111,6 @@ router.get('/page2', checkSessionData, async (req, res) => {
         res.redirect('/?error=db_error');
     }
 });
-
-// POST /page2 Route
-router.post('/page2', checkSessionData, async (req, res) => {
-    try {
-        const update = {
-            email: req.body.email,
-            phone: req.body.phone,
-            passportCitizenship: req.body.passportCitizenship,
-            firstName: req.body.firstName,
-            lastName: req.body.lastName
-        };
-        await Application.findByIdAndUpdate(req.session.applicationId, update);
-        console.log('Page2: Application updated for id:', req.session.applicationId);
-        res.redirect('/payment');
-    } catch (error) {
-        console.error('Page2 update error:', error);
-        res.status(500).send("Error updating page2: " + error.message);
-    }
-});
-
 
 
 

@@ -19,20 +19,11 @@ const upload = multer({
     limits: { fileSize: 5 * 1024 * 1024 } // 5MB
 });
 
-// routes/visa.js
-// routes/visa.js
+// Middleware to check session (now checks for applicationId)
 const checkSessionData = (req, res, next) => {
-    console.log('checkSessionData - req.path:', req.path);
-    console.log('Session data:', req.session);
-    // Update condition to check for applicationId instead of page1
-    if (!req.session.applicationId && req.path !== '/') {
-        console.error('No applicationId found in session, redirecting to /');
-        return res.redirect('/');
-    }
+    if (!req.session.applicationId && req.path !== '/') return res.redirect('/');
     next();
 };
-
-
 
 // Page 1 - Initial application
 router.get('/', (req, res) => {
@@ -43,8 +34,10 @@ router.get('/', (req, res) => {
 });
 
 // Save page1 data into DB and store document id in session
+// routes/visa.js - Updated Page 1 Handler with extra logging
 router.post('/page1', async (req, res) => {
     try {
+        // Create a new application document with page1 data
         const application = new Application({
             destination: req.body.destination,
             visaType: req.body.visaType,
@@ -54,10 +47,14 @@ router.post('/page1', async (req, res) => {
         const savedApplication = await application.save();
         console.log('Page1: Application saved with id:', savedApplication._id);
         
+        // Save the document id in session to use in subsequent pages
         req.session.applicationId = savedApplication._id;
+        
+        // Force-save session before redirecting and add logging
         req.session.save((err) => {
             if (err) {
                 console.error('Session save error on page1:', err);
+                // Optionally, trigger a notification (e.g., using an error tracking service)
                 return res.status(500).send("Error saving session: " + err.message);
             }
             console.log("Session saved successfully; redirecting to /page2");
@@ -65,55 +62,12 @@ router.post('/page1', async (req, res) => {
         });
     } catch (err) {
         console.error("Error in /page1 route:", err);
+        // Send error response so you can see what went wrong in production
         return res.status(500).send("Error in page1: " + err.message);
     }
 });
 
-
 // Page 2 - Save personal details into DB
-// GET /page2 Route
-router.get('/page2', checkSessionData, async (req, res) => {
-    try {
-        console.log("GET /page2: applicationId from session:", req.session.applicationId);
-        const application = await Application.findById(req.session.applicationId);
-        if (!application) {
-            console.error('GET /page2: Application not found for id:', req.session.applicationId);
-            return res.redirect('/?error=application_not_found');
-        }
-        console.log("GET /page2: Retrieved application data:", application);
-        res.render('page2', {
-            data: application,
-            countries: countryNames,
-            title: 'Step 2: Personal Details'
-        });
-    } catch (error) {
-        console.error('GET /page2: Error loading application:', error);
-        res.redirect('/?error=db_error');
-    }
-});
-// GET /page2 Route
-// GET /page2 Route
-router.get('/page2', checkSessionData, async (req, res) => {
-    try {
-        console.log("GET /page2: applicationId from session:", req.session.applicationId);
-        const application = await Application.findById(req.session.applicationId);
-        if (!application) {
-            console.error('GET /page2: Application not found for id:', req.session.applicationId);
-            return res.redirect('/?error=application_not_found');
-        }
-        console.log("GET /page2: Retrieved application data:", application);
-        res.render('page2', {
-            data: application,
-            countries: countryNames,
-            title: 'Step 2: Personal Details'
-        });
-    } catch (error) {
-        console.error('GET /page2: Error loading application:', error);
-        res.redirect('/?error=db_error');
-    }
-});
-
-// POST /page2 Route
 router.post('/page2', checkSessionData, async (req, res) => {
     try {
         const update = {
@@ -128,11 +82,9 @@ router.post('/page2', checkSessionData, async (req, res) => {
         res.redirect('/payment');
     } catch (error) {
         console.error('Page2 update error:', error);
-        res.status(500).send("Error updating page2: " + error.message);
+        return res.status(500).send("Error updating page2: " + error.message);
     }
 });
-
-
 
 
 // Payment Page (GET) - load application from DB
