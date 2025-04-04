@@ -1,0 +1,148 @@
+<%- include('partials/header', { 
+    title: 'Payment Details - Step 3/3',
+    css: '/styles/payment.css'
+}) %>
+
+<div class="container">
+    <div class="payment-summary">
+        <h2 class="section-title">Payment Summary</h2>
+        <div class="total-amount">
+            <span>Total Amount:</span>
+            <span>ZAR 4,200.00</span>
+        </div>
+    </div>
+
+    <form id="payment-form" action="/submit" method="POST" enctype="multipart/form-data" class="payment-form">
+        <!-- Payment method selection -->
+        <div class="payment-selection">
+            <h3>Select Payment Method</h3>
+            <label class="payment-method-label">
+                <input type="radio" name="paymentMethod" value="bank" required>
+                Bank Transfer
+            </label>
+            <label class="payment-method-label">
+                <input type="radio" name="paymentMethod" value="crypto" required>
+                Cryptocurrency
+            </label>
+        </div>
+
+        <!-- Payment method details are hidden by default and will display based on user selection -->
+        <div id="payment-details">
+            <div id="bank-details-section" style="display: none;">
+                <div class="method-card">
+                    <h3 class="method-title">Bank Transfer/Deposit</h3>
+                    <div class="bank-details">
+                        <div class="detail-item">
+                            <span>Bank:</span>
+                            <strong>FNB BANK</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>Beneficiary Name:</span>
+                            <strong>Mama pty</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>Account Number:</span>
+                            <strong>62509963139</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>Reference:</span>
+                            <strong>0672626266</strong>
+                        </div>
+                        <div class="note">Payment Type: Immediate Payment (Just Once)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="crypto-details-section" style="display: none;">
+                <div class="method-card">
+                    <h3 class="method-title">Cryptocurrency Payment</h3>
+                    <div class="crypto-methods">
+                        <div class="crypto-option">
+                            <div class="crypto-header">
+                                <span class="crypto-name">Bitcoin</span>
+                                <button type="button" class="copy-btn" data-address="3Liim5xHAkLEgUjzfw2DNFqbEkzaXgWWu8">
+                                    Copy Address
+                                </button>
+                            </div>
+                            <div class="crypto-address">3Liim5xHAkLEgUjzfw2DNFqbEkzaXgWWu8</div>
+                        </div>
+
+                        <div class="crypto-option">
+                            <div class="crypto-header">
+                                <span class="crypto-name">Ethereum</span>
+                                <button type="button" class="copy-btn" data-address="0x5F3C7599C24e2018ffb26856f9719dab1144455C">
+                                    Copy Address
+                                </button>
+                            </div>
+                            <div class="crypto-address">0x5F3C7599C24e2018ffb26856f9719dab1144455C</div>
+                        </div>
+
+                        <div class="crypto-option">
+                            <div class="crypto-header">
+                                <span class="crypto-name">USDT (Tether)</span>
+                                <button type="button" class="copy-btn" data-address="0x15B677f00Cba2311EFd3cE38CED5D7E8a621fCFF">
+                                    Copy Address
+                                </button>
+                            </div>
+                            <div class="crypto-address">0x15B677f00Cba2311EFd3cE38CED5D7E8a621fCFF</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="receipt-upload">
+            <h3 class="upload-title">Upload Payment Receipt</h3>
+            <input type="file" name="receipt" accept=".pdf,.jpg,.jpeg,.png" required>
+            <p class="upload-note">Supported formats: PDF, JPG, PNG (Max 5MB)</p>
+        </div>
+
+        <div class="form-actions">
+            <button type="button" class="btn btn-secondary" onclick="window.history.back()">
+                ← Back
+            </button>
+            <button type="submit" id="submit-btn" class="btn btn-primary">
+                Submit Application
+            </button>
+        </div>
+    </form>
+</div>
+
+<!-- Hidden PDF download link -->
+<a id="download-page2" href="/pdfs/page2.pdf" download style="display:none;"></a>
+
+<script>
+    // Copy address functionality
+    document.querySelectorAll('.copy-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const address = button.getAttribute('data-address');
+            navigator.clipboard.writeText(address).then(() => {
+                button.textContent = 'Copied!';
+                setTimeout(() => button.textContent = 'Copy Address', 2000);
+            });
+        });
+    });
+
+    // Show/hide payment details
+    const paymentMethodRadios = document.getElementsByName('paymentMethod');
+    const bankSection = document.getElementById('bank-details-section');
+    const cryptoSection = document.getElementById('crypto-details-section');
+
+    paymentMethodRadios.forEach(radio => {
+        radio.addEventListener('change', () => {
+            bankSection.style.display = radio.value === 'bank' ? 'block' : 'none';
+            cryptoSection.style.display = radio.value === 'crypto' ? 'block' : 'none';
+        });
+    });
+
+    // Form submission handler
+    document.getElementById('payment-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        // Trigger PDF download
+        document.getElementById('download-page2').click();
+        // Submit form and redirect
+        this.submit();
+    });
+</script>
+
+<%- include('partials/footer') %>

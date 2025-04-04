@@ -1,0 +1,32 @@
+<%- include('partials/header', { 
+    title: 'Application Submitted Successfully',
+    css: '/styles/success.css'
+}) %>
+
+<div class="success-container">
+    <div class="success-card">
+        <img src="/images/success-icon.png" alt="Success" class="success-icon">
+        <h1 class="success-title">Application Submitted Successfully!</h1>
+        
+        <div class="success-details">
+            <p>✔ Your payment receipt and application details have been received.</p>
+            <p>✔ Our team is reviewing your submission.</p>
+            <p>✔ You'll receive confirmation via email/WhatsApp within 24 hours.</p>
+        </div>
+
+        <div class="next-steps">
+            <h2>What's Next?</h2>
+            <ul>
+                <li>Keep your phone and email accessible</li>
+                <li>Check spam/junk folders regularly</li>
+                <li>Have your identification documents ready</li>
+            </ul>
+        </div>
+
+        <a href="https://intljobs.vercel.app" class="home-btn">
+            ← Return to Homepage
+        </a>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

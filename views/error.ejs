@@ -1,0 +1,11 @@
+<%- include('partials/header', { 
+    title: 'Error',
+    css: '/styles/page1.css' 
+}) %>
+
+<div class="container">
+    <h1 class="error-message"><%= message %></h1>
+    <a href="/" class="home-link">← Return to Homepage</a>
+</div>
+
+<%- include('partials/footer') %>

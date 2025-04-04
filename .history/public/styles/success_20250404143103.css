@@ -1,0 +1,84 @@
+.success-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+}
+
+.success-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.success-icon {
+    width: 100px;
+    margin-bottom: 1.5rem;
+}
+
+.success-title {
+    color: #2ecc71;
+    margin-bottom: 1.5rem;
+}
+
+.success-details {
+    text-align: left;
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.success-details p {
+    margin: 1rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.success-details p::before {
+    content: '✓';
+    color: #2ecc71;
+    position: absolute;
+    left: 0;
+}
+
+.next-steps {
+    text-align: left;
+    margin: 2rem 0;
+    padding: 1rem;
+    border-left: 3px solid #3498db;
+}
+
+.next-steps h2 {
+    color: #3498db;
+    margin-bottom: 1rem;
+}
+
+.next-steps li {
+    margin: 0.5rem 0;
+    list-style: none;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.next-steps li::before {
+    content: '•';
+    color: #3498db;
+    position: absolute;
+    left: 0;
+}
+
+.home-btn {
+    display: inline-block;
+    padding: 12px 30px;
+    background: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+
+.home-btn:hover {
+    background: #2980b9;
+}

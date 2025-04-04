@@ -1,0 +1,9 @@
+function copyAddress(address) {
+    navigator.clipboard.writeText(address);
+  }
+  
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      copyAddress(btn.dataset.address);
+    });
+  });

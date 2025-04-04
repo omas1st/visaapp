@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Visa Application - Step 1</title>
+</head>
+<body>
+    <form action="/page1" method="POST">
+        <!-- Country dropdowns would use a countries array -->
+        <select name="destination" required>
+            <% countries.forEach(country => { %>
+                <option value="<%= country %>"><%= country %></option>
+            <% }) %>
+        </select>
+        
+        <select name="visaType" required>
+            <option value="Tourist">Tourist Visa</option>
+            <option value="Business">Business Visa</option>
+            <option value="Diversity">Diversity Visa</option>
+        </select>
+        
+        <button type="submit">Continue</button>
+    </form>
+</body>
+</html>

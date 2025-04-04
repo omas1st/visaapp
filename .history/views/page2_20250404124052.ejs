@@ -1,0 +1,70 @@
+<%- include('partials/header', { title: 'Step 2: Personal Details', css: '/styles/page2.css' }) %>
+
+<div class="container">
+    <h1 class="form-title">Visa Application - Step 2/3</h1>
+    
+    <div class="preview-section">
+        <h3>Application Preview</h3>
+        <div class="preview-grid">
+            <div class="preview-item">
+                <span>Destination:</span>
+                <strong><%= data.destination %></strong>
+            </div>
+            <div class="preview-item">
+                <span>Visa Type:</span>
+                <strong><%= data.visaType %></strong>
+            </div>
+            <div class="preview-item">
+                <span>Citizenship:</span>
+                <strong><%= data.citizenship %></strong>
+            </div>
+        </div>
+    </div>
+
+    <form action="/page2" method="POST" class="application-form">
+        <div class="info-box">
+            <h4>Important Information</h4>
+            <p>Welcome to the online application!</p>
+            <p>We know this can be a time-consuming process, but we've minimized the amount of information you need to provide to reflect the embassy's requirements.</p>
+            <p>The validity of a visa starts from the date of issuance of visa</p>
+            <p>We'll contact you using this email for any issue and additional question regarding your application</p>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Contact E-mail</label>
+            <input type="email" name="email" id="email" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Contact Phone Number</label>
+            <input type="tel" name="phone" id="phone" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="passportCitizenship">Passport Citizenship</label>
+            <select name="passportCitizenship" id="passportCitizenship" class="form-control" required>
+                <option value="">Select Country</option>
+                <% countries.forEach(country => { %>
+                    <option value="<%= country %>"><%= country %></option>
+                <% }) %>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="firstName">First Name (as in passport)</label>
+            <input type="text" name="firstName" id="firstName" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="lastName">Last Name (as in passport)</label>
+            <input type="text" name="lastName" id="lastName" class="form-control" required>
+        </div>
+
+        <div class="form-actions">
+            <button type="button" class="btn-secondary" onclick="window.history.back()">← Back</button>
+            <button type="submit" class="btn-primary">Continue →</button>
+        </div>
+    </form>
+</div>
+
+<%- include('partials/footer') %>
