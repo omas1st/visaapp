@@ -1,10 +1,13 @@
 require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
-const MongoStore = require('connect-mongo'); // Added
+const MongoStore = require('connect-mongo');
 const mongoose = require('mongoose');
 const path = require('path');
 const app = express();
+
+// Import router
+const visaRouter = require('./routes/visa');
 
 // Database connection
 mongoose.connect(process.env.MONGO_URI)
@@ -18,15 +21,9 @@ app.use(session({
     secret: process.env.SECRET_KEY,
     resave: false,
     saveUninitialized: true,
-    store: MongoStore.create({
-        mongoUrl: process.env.MONGO_URI,
-        ttl: 24 * 60 * 60,
-        autoRemove: 'interval',
-        autoRemoveInterval: 10 // Minutes
-    }),
+    store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
     cookie: { 
-        secure: true, // Must be true for HTTPS (Vercel uses HTTPS)
-        sameSite: 'none', // Required for cross-origin cookies
+        secure: process.env.NODE_ENV === 'production',
         maxAge: 24 * 60 * 60 * 1000
     }
 }));
@@ -36,15 +33,13 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // Routes
-const visaRouter = require('./routes/visa');
-app.use('/', visaRouter);
+app.use('/', visaRouter); // Handles ALL routes including root
 
 // Error handling
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).render('error', {
-        title: 'Application Error',
-        message: 'Something went wrong! Please try again later.'
+        message: 'Application Error'
     });
 });
 

@@ -14,23 +14,20 @@ mongoose.connect(process.env.MONGO_URI)
 // Middleware
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
+// Remove session middleware and replace with:
 app.use(session({
     secret: process.env.SECRET_KEY,
     resave: false,
     saveUninitialized: true,
-    store: MongoStore.create({
-        mongoUrl: process.env.MONGO_URI,
-        ttl: 24 * 60 * 60,
-        autoRemove: 'interval',
-        autoRemoveInterval: 10 // Minutes
-    }),
+    store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
     cookie: { 
-        secure: true, // Must be true for HTTPS (Vercel uses HTTPS)
-        sameSite: 'none', // Required for cross-origin cookies
+        secure: process.env.NODE_ENV === 'production',
         maxAge: 24 * 60 * 60 * 1000
     }
 }));
 
+// Add API route
+app.use('/api', visaRouter);
 // View engine setup
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));

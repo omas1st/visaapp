@@ -1,10 +1,13 @@
 require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
-const MongoStore = require('connect-mongo'); // Added
+const MongoStore = require('connect-mongo');
 const mongoose = require('mongoose');
 const path = require('path');
 const app = express();
+
+// 1. FIRST: Import routes BEFORE using them
+const visaRouter = require('./routes/visa'); // Add this line here
 
 // Database connection
 mongoose.connect(process.env.MONGO_URI)
@@ -20,13 +23,10 @@ app.use(session({
     saveUninitialized: true,
     store: MongoStore.create({
         mongoUrl: process.env.MONGO_URI,
-        ttl: 24 * 60 * 60,
-        autoRemove: 'interval',
-        autoRemoveInterval: 10 // Minutes
+        ttl: 24 * 60 * 60
     }),
     cookie: { 
-        secure: true, // Must be true for HTTPS (Vercel uses HTTPS)
-        sameSite: 'none', // Required for cross-origin cookies
+        secure: process.env.NODE_ENV === 'production',
         maxAge: 24 * 60 * 60 * 1000
     }
 }));
@@ -35,9 +35,8 @@ app.use(session({
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Routes
-const visaRouter = require('./routes/visa');
-app.use('/', visaRouter);
+// 2. THEN: Use the router AFTER importing it
+app.use('/api', visaRouter); // This should come after the import
 
 // Error handling
 app.use((err, req, res, next) => {

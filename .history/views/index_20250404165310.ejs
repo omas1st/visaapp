@@ -1,0 +1,129 @@
+<%- include('partials/header', { 
+    title: 'Visa Application',
+    css: '/styles/main.css'
+}) %>
+
+<div class="container">
+    <div class="spa-steps">
+        <!-- Step Indicators -->
+        <div class="step-indicator">
+            <div class="step active" data-step="1">1</div>
+            <div class="step" data-step="2">2</div>
+            <div class="step" data-step="3">3</div>
+        </div>
+
+        <!-- Step 1 -->
+        <div class="step-content active" data-step="1">
+            <form action="/page1" method="POST" class="application-form">
+                <div class="form-section">
+                    <h2 class="section-title">Application Details</h2>
+                    
+                    <div class="form-group">
+                        <label for="destination" class="form-label">Travel Destination</label>
+                        <select name="destination" id="destination" class="form-select" required>
+                            <option value="">Select Country</option>
+                            <% countries.forEach(country => { %>
+                                <option value="<%= country %>"><%= country %></option>
+                            <% }); %>
+                        </select>
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="visaType" class="form-label">Visa Type</label>
+                        <select name="visaType" id="visaType" class="form-select" required>
+                            <option value="">Select Visa Type</option>
+                            <option value="Tourist">Tourist Visa</option>
+                            <option value="Business">Business Visa</option>
+                            <option value="Diversity">Diversity Visa (Green Card)</option>
+                        </select>
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="citizenship" class="form-label">Your Citizenship</label>
+                        <select name="citizenship" id="citizenship" class="form-select" required>
+                            <option value="">Select Country</option>
+                            <% countries.forEach(country => { %>
+                                <option value="<%= country %>"><%= country %></option>
+                            <% }); %>
+                        </select>
+                    </div>
+                </div>
+        
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step-content" data-step="2">
+            <div class="preview-section">
+                <h3>Application Preview</h3>
+                <div class="preview-grid">
+                    <div class="preview-item">
+                        <span>Destination:</span>
+                        <strong><%= data.destination %></strong>
+                    </div>
+                    <div class="preview-item">
+                        <span>Visa Type:</span>
+                        <strong><%= data.visaType %></strong>
+                    </div>
+                    <div class="preview-item">
+                        <span>Citizenship:</span>
+                        <strong><%= data.citizenship %></strong>
+                    </div>
+                </div>
+            </div>
+        
+            <form action="/page2" method="POST" class="application-form">
+                <div class="info-box">
+                    <h4>Important Information</h4>
+                    <p>Welcome to the online application!</p>
+                    <p>We know this can be a time-consuming process, but we've minimized the amount of information you need to provide to reflect the embassy's requirements.</p>
+                    <p>The validity of a visa starts from the date of issuance of visa</p>
+                    <p>We'll contact you using this email for any issue and additional question regarding your application</p>
+                </div>
+        
+                <div class="form-group">
+                    <label for="email">Contact E-mail</label>
+                    <input type="email" name="email" id="email" class="form-control" required>
+                </div>
+        
+                <div class="form-group">
+                    <label for="phone">Contact Phone Number</label>
+                    <input type="tel" name="phone" id="phone" class="form-control" required>
+                </div>
+        
+                <div class="form-group">
+                    <label for="passportCitizenship">Passport Citizenship</label>
+                    <select name="passportCitizenship" id="passportCitizenship" class="form-control" required>
+                        <option value="">Select Country</option>
+                        <% countries.forEach(country => { %>
+                            <option value="<%= country %>"><%= country %></option>
+                        <% }) %>
+                    </select>
+                </div>
+        
+                <div class="form-group">
+                    <label for="firstName">First Name (as in passport)</label>
+                    <input type="text" name="firstName" id="firstName" class="form-control" required>
+                </div>
+        
+                <div class="form-group">
+                    <label for="lastName">Last Name (as in passport)</label>
+                    <input type="text" name="lastName" id="lastName" class="form-control" required>
+                </div>
+        
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="window.history.back()">← Back</button>
+                    <button type="submit" class="btn-primary">Continue →</button>
+                </div>
+            </form>
+        
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step-content" data-step="3">
+            <!-- Include content from original payment.ejs form here -->
+        </div>
+    </div>
+</div>
+
+<script src="/js/app.js"></script>
+<%- include('partials/footer') %>

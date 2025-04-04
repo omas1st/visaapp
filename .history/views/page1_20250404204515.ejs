@@ -1,0 +1,59 @@
+<%- include('partials/header', { 
+    title: 'Visa Application - Step 1/3',
+    css: '/styles/page1.css'
+}) %>
+
+<div class="container">
+    <div class="form-header">
+        <h1 class="form-title">Visa Application</h1>
+        <div class="step-indicator">
+            <div class="step active">1</div>
+            <div class="step">2</div>
+            <div class="step">3</div>
+        </div>
+    </div>
+
+    <form action="/page1" method="POST" class="application-form">
+        <div class="form-section">
+            <h2 class="section-title">Application Details</h2>
+            
+            <div class="form-group">
+                <label for="destination" class="form-label">Travel Destination</label>
+                <select name="destination" id="destination" class="form-select" required>
+                    <option value="">Select Country</option>
+                    <% countries.forEach(country => { %>
+                        <option value="<%= country %>"><%= country %></option>
+                    <% }); %>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="visaType" class="form-label">Visa Type</label>
+                <select name="visaType" id="visaType" class="form-select" required>
+                    <option value="">Select Visa Type</option>
+                    <option value="Tourist">Tourist Visa</option>
+                    <option value="Business">Business Visa</option>
+                    <option value="Diversity">Diversity Visa (Green Card)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="citizenship" class="form-label">Your Citizenship</label>
+                <select name="citizenship" id="citizenship" class="form-select" required>
+                    <option value="">Select Country</option>
+                    <% countries.forEach(country => { %>
+                        <option value="<%= country %>"><%= country %></option>
+                    <% }); %>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+                Continue <span class="arrow">→</span>
+            </button>
+        </div>
+    </form>
+</div>
+
+<%- include('partials/footer') %>

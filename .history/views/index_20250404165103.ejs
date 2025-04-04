@@ -1,0 +1,33 @@
+<%- include('partials/header', { 
+    title: 'Visa Application',
+    css: '/styles/main.css'
+}) %>
+
+<div class="container">
+    <div class="spa-steps">
+        <!-- Step Indicators -->
+        <div class="step-indicator">
+            <div class="step active" data-step="1">1</div>
+            <div class="step" data-step="2">2</div>
+            <div class="step" data-step="3">3</div>
+        </div>
+
+        <!-- Step 1 -->
+        <div class="step-content active" data-step="1">
+            <!-- Include content from original page1.ejs form here -->
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step-content" data-step="2">
+            <!-- Include content from original page2.ejs form here -->
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step-content" data-step="3">
+            <!-- Include content from original payment.ejs form here -->
+        </div>
+    </div>
+</div>
+
+<script src="/js/app.js"></script>
+<%- include('partials/footer') %>
